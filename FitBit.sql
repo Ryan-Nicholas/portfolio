@@ -1,16 +1,14 @@
---Calculate Count of Age Groups
+/* For this project I found some data on Kaggle about FitBit marketing campaings.  The original CSV was a single CSV
+I created two files to demonstate joins keeping the CustomerID as the primary key in both.  I do wish that there was data on 
+the amount that was spent so we could calculate ROI. */
 
-SELECT AgeGroup, COUNT(AgeGroup) AS Age_Count
+-- Break down of count of Ages, Gender
+
+SELECT AgeGroup, Gender, COUNT(*) AS Count
 FROM fitbit_demo
-GROUP BY 1
-ORDER BY AgeGroup;
+GROUP BY 1, 2
+ORDER BY 1,2;
 
---Calculate Count of Gender
-
-SELECT Gender, COUNT(Gender) AS Gender_Count
-FROM fitbit_demo
-GROUP BY 1
-ORDER BY 1;
 
 --Caclculate Country Count
 SELECT Country, COUNT(*) AS Country_Count
@@ -25,14 +23,15 @@ FROM fitbit_marketing
 GROUP BY 1
 ORDER BY  2 DESC;
 
---Highest Converting Campaing
+--Highest Converting Campaign
 SELECT CampaignID, SUM(Conversions) AS CampaignID_Conversion_Count
 FROM fitbit_marketing
 GROUP BY 1
-ORDER BY  2 DESC;
+ORDER BY  2 DESC
+LIMIT 10;
 
 
--- Platform Performance
+-- Platform Performance by ConversionValue
 SELECT AdPlatform, SUM(ConversionValue) AS Platform_Value
 FROM fitbit_marketing
 GROUP BY 1
@@ -53,7 +52,7 @@ LEFT JOIN fitbit_marketing m
 ON d.CustomerID = m.CustomerID
 WHERE m.Conversions = 1
 GROUP BY d.Country
-ORDER BY 2;
+ORDER BY 2 DESC;
 
 -- Country Conversion Rate
 SELECT     d.Country,  
